@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c02ab7ff44bdabcccaa7b50d4bacfec56f2e30cff5731dc5dc1a2419a6035566"
+            "sha256": "9fbe136325cb105a15250c89e88b0688292b7b196f20816b343b03eb7455f2c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -51,6 +51,14 @@
             ],
             "index": "pypi",
             "version": "==1.0.2"
+        },
+        "flask-sqlalchemy": {
+            "hashes": [
+                "sha256:3bc0fac969dd8c0ace01b32060f0c729565293302f0c4269beed154b46bec50b",
+                "sha256:5971b9852b5888655f11db634e87725a9031e170f37c0ce7851cf83497f56e53"
+            ],
+            "index": "pypi",
+            "version": "==2.3.2"
         },
         "idna": {
             "hashes": [
@@ -113,13 +121,6 @@
                 "sha256:3e1e14f6cde7e5475128d30e97edc3bfb4dc857cb884d8714ec161fdbb3b358e"
             ],
             "version": "==3.0.1"
-        },
-        "peewee": {
-            "hashes": [
-                "sha256:7f8e3f512ee0d4e2d9c2008ea446d69e23c9535466367b991d452825a1ddb654"
-            ],
-            "index": "pypi",
-            "version": "==3.8.2"
         },
         "pillow": {
             "hashes": [
@@ -234,6 +235,12 @@
                 "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
             ],
             "version": "==1.12.0"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:8027fa183f5be466030617a497b2d64e0e16c8d615e5a34bdf9fab6f66bf4723"
+            ],
+            "version": "==1.2.18"
         },
         "tweepy": {
             "hashes": [

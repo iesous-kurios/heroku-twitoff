@@ -8,12 +8,12 @@ verify_ssl = true
 [packages]
 flask = "*"
 jinja2 = "*"
-peewee = "*"
 basilica = "*"
 tweepy = "*"
 redis = "*"
 psycopg2 = "*"
 python-dotenv = "*"
+flask-sqlalchemy = "*"
 
 [requires]
 python_version = "3.5"
