@@ -1,3 +1,3 @@
 #!/bin/sh
 
-FLASK_APP=tweetometer flask shell
+FLASK_APP=twitoff flask shell

@@ -1,4 +1,4 @@
-"""Models for Tweetometer, made with SQLAlchemy."""
+"""Models for TwitOff, made with SQLAlchemy."""
 from flask_sqlalchemy import SQLAlchemy
 from . import APP
 

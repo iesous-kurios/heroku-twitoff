@@ -1,8 +1,8 @@
-"""Main app/routing file for Tweetometer."""
+"""Main app/routing file for TwitOff."""
 from flask import Flask, render_template
 
 
-def create_app(config='tweetometer.config.DevelopmentConfig'):
+def create_app(config='twitoff.config.DevelopmentConfig'):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
     app.config.from_object(config)
