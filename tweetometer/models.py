@@ -1,5 +1,9 @@
-"""Models for Tweetometer, made with the peewee ORM."""
+"""Models for Tweetometer, made with SQLAlchemy."""
+from flask_sqlalchemy import SQLAlchemy
 
-import peewee as pw
+DB = SQLAlchemy(app)
 
 
+class TwitterUser(DB.Model):
+    username = DB.Column(DB.String(50))
+    last_fetched = DB.Column(DB.DateTime)

@@ -1,15 +1,13 @@
 """Flask app configurations for local development and production."""
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from decouple import config
 
 
 class Config:
     """Base config common for all environments."""
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = config('DATABASE_URI')
 
 class DevelopmentConfig(Config):
     """Config for local usage with SQLite."""

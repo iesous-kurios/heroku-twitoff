@@ -12,8 +12,9 @@ basilica = "*"
 tweepy = "*"
 redis = "*"
 psycopg2 = "*"
-python-dotenv = "*"
 flask-sqlalchemy = "*"
+gunicorn = "*"
+python-decouple = "*"
 
 [requires]
 python_version = "3.5"
