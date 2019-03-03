@@ -14,15 +14,17 @@ def create_app():
 
     @app.route('/')
     def root():
-        return render_template('base.html', title='Home')
+        users = User.query.all()
+        return render_template('base.html', title='Home', users=users)
 
-    @app.route('/user/<name>', methods=['GET', 'POST'])
-    def user(name):
+    @app.route('/user', methods=['POST'])
+    @app.route('/user/<name>', methods=['GET'])
+    def user(name=None):
+        name = name or request.values['user_name']
         if request.method == 'POST':
-            add_or_update_user(name)
+            add_or_update_user(name)  # TODO handle private/non-users
         tweets = User.query.filter(User.name == name).one().tweets
-        return render_template('user.html', title=name, name=name,
-                               tweets=tweets)
+        return render_template('user.html', title=name, tweets=tweets)
 
     @app.route('/reset')
     def reset():
