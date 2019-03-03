@@ -9,7 +9,7 @@ class User(DB.Model):
     id = DB.Column(DB.Integer, primary_key=True)
     name = DB.Column(DB.String(15), nullable=False)
     # Tweet IDs are ordinal ints, so can be used to fetch only more recent
-    newest_tweet_id = DB.Column(DB.Integer)
+    newest_tweet_id = DB.Column(DB.BigInteger)
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
@@ -17,7 +17,7 @@ class User(DB.Model):
 
 class Tweet(DB.Model):
     """Tweets and their embeddings from Basilica."""
-    id = DB.Column(DB.Integer, primary_key=True)
+    id = DB.Column(DB.BigInteger, primary_key=True)
     text = DB.Column(DB.Unicode(280))  # Future-proofing, API is short/ascii
     embedding = DB.Column(DB.PickleType, nullable=False)
     user_id = DB.Column(DB.Integer, DB.ForeignKey('user.id'), nullable=False)
