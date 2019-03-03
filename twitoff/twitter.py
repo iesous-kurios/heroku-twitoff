@@ -18,13 +18,14 @@ def add_or_update_user(username):
         twitter_user = TWITTER.get_user(username)
         db_user = (User.query.get(twitter_user.id) or
                    User(id=twitter_user.id, name=username))
+        DB.session.add(db_user)
         # We want as many recent non-retweet/reply statuses as we can get
         # 200 is a Twitter API limit, we'll usually see less due to exclusions
         tweets = twitter_user.timeline(
             count=200, exclude_replies=True, include_rts=False,
             since_id=db_user.newest_tweet_id)
-        db_user.newest_tweet_id = tweets[0].id
-        DB.session.add(db_user)
+        if tweets:
+            db_user.newest_tweet_id = tweets[0].id
         for tweet in tweets:
             embedding = BASILICA.embed_sentence(tweet.text, model='twitter')
             db_tweet = Tweet(id=tweet.id, text=tweet.text, embedding=embedding)
@@ -35,3 +36,9 @@ def add_or_update_user(username):
         raise Exception
     else:
         DB.session.commit()
+
+
+def update_all_users():
+    """Update all Tweets for all Users in the User table."""
+    for user in User.query.all():
+        add_or_update_user(user.name)
