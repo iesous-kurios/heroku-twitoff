@@ -1,4 +1,5 @@
 """Main app/routing file for TwitOff."""
+import pickle
 from decouple import config
 from flask import Flask, render_template, request
 from .models import DB, User
@@ -20,11 +21,14 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URI')
     app.config['ENV'] = config('ENV')
     DB.init_app(app)
+    cached_comparisons = (pickle.loads(CACHE.get('comparisons'))
+                          if CACHE.exists('comparisons') else set())
 
     @app.route('/')
     def root():
         users = User.query.all()
-        return render_template('base.html', title='Home', users=users)
+        return render_template('base.html', title='Home', users=users,
+                               comparisons=cached_comparisons)
 
     @app.route('/user', methods=['POST'])
     @app.route('/user/<name>', methods=['GET'])
@@ -32,7 +36,7 @@ def create_app():
         name = name or request.values['user_name']
         try:
             if request.method == 'POST':
-                add_or_update_user(name)  # TODO handle private/non-users
+                add_or_update_user(name)
                 message = "User {} successfully added!".format(name)
             tweets = User.query.filter(User.name == name).one().tweets
         except Exception as e:
@@ -47,7 +51,10 @@ def create_app():
         if user1 == user2:
             message = 'Cannot compare a user to themselves!'
         else:
-            prediction = predict_user(user1, user2, request.values['tweet_text'])
+            prediction = predict_user(user1, user2,
+                                      request.values['tweet_text'], CACHE)
+            cached_comparisons.add(frozenset({user1, user2}))
+            CACHE.set('comparisons', pickle.dumps(cached_comparisons))
             message = '"{}" more likely to be said by: {}'.format(
                 request.values['tweet_text'], user1 if prediction else user2)
         return render_template('prediction.html', title='Prediction', message=message)
