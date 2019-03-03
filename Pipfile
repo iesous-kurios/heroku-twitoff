@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 python-decouple = "*"
 scikit-learn = "*"
+birdisle = "*"
 
 [requires]
 python_version = "3.5"
