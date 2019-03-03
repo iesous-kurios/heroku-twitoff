@@ -1,7 +1,7 @@
 """Main app/routing file for TwitOff."""
 from decouple import config
 from flask import Flask, render_template, request
-from .models import DB
+from .models import DB, User
 from .twitter import add_or_update_user, update_all_users
 
 
@@ -20,7 +20,9 @@ def create_app():
     def user(name):
         if request.method == 'POST':
             add_or_update_user(name)
-        return render_template('user.html', title=name, name=name)
+        tweets = User.query.filter(User.name == name).one().tweets
+        return render_template('user.html', title=name, name=name,
+                               tweets=tweets)
 
     @app.route('/reset')
     def reset():
