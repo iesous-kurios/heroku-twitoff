@@ -1,8 +1,5 @@
 """SQLAlchemy models and utility functions for TwitOff."""
-from flask_sqlalchemy import SQLAlchemy
-from . import APP
-
-DB = SQLAlchemy(APP)
+from . import DB
 
 
 class User(DB.Model):
@@ -26,9 +23,3 @@ class Tweet(DB.Model):
 
     def __repr__(self):
         return '<Tweet {}>'.format(self.text)
-
-
-def reset_db():
-    """Drop and recreate all database tables."""
-    DB.drop_all()
-    DB.create_all()

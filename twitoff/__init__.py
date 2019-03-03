@@ -1,4 +1,4 @@
 """Entry point for TwitOff."""
-from .app import create_app
+from .app import create_app_and_db
 
-APP = create_app()
+APP, DB = create_app_and_db()
