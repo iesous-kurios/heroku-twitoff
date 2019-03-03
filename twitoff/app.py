@@ -26,8 +26,7 @@ def create_app():
 
     @app.route('/')
     def root():
-        users = User.query.all()
-        return render_template('base.html', title='Home', users=users,
+        return render_template('base.html', title='Home', users=User.query.all(),
                                comparisons=cached_comparisons)
 
     @app.route('/user', methods=['POST'])
@@ -55,7 +54,7 @@ def create_app():
                                       request.values['tweet_text'], CACHE)
             cached_comparisons.add(frozenset({user1, user2}))
             CACHE.set('comparisons', pickle.dumps(cached_comparisons))
-            message = '"{}" more likely to be said by: {}'.format(
+            message = '"{}" is more likely to be said by: {}'.format(
                 request.values['tweet_text'], user1 if prediction else user2)
         return render_template('prediction.html', title='Prediction', message=message)
 
@@ -67,7 +66,10 @@ def create_app():
 
     @app.route('/update')
     def update():
+        CACHE.flushall()
+        cached_comparisons.clear()
         update_all_users()
-        return render_template('base.html', title='All User Tweets updated!')
+        return render_template('base.html', users=User.query.all(),
+                               title='Cache cleared and all Tweets updated!')
 
     return app
