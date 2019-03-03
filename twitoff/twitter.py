@@ -31,9 +31,9 @@ def add_or_update_user(username):
             db_tweet = Tweet(id=tweet.id, text=tweet.text, embedding=embedding)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
-    except Exception:
-        print('Error processing ' + username)
-        raise Exception
+    except Exception as e:
+        print('Error processing {}: {}'.format(username, e))
+        raise e
     else:
         DB.session.commit()
 

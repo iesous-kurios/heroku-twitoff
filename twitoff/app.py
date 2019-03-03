@@ -19,12 +19,18 @@ def create_app():
 
     @app.route('/user', methods=['POST'])
     @app.route('/user/<name>', methods=['GET'])
-    def user(name=None):
+    def user(name=None, message=''):
         name = name or request.values['user_name']
-        if request.method == 'POST':
-            add_or_update_user(name)  # TODO handle private/non-users
-        tweets = User.query.filter(User.name == name).one().tweets
-        return render_template('user.html', title=name, tweets=tweets)
+        try:
+            if request.method == 'POST':
+                add_or_update_user(name)  # TODO handle private/non-users
+                message = "User {} successfully added!".format(name)
+            tweets = User.query.filter(User.name == name).one().tweets
+        except Exception as e:
+            message = "Error adding {}: {}".format(name, e)
+            tweets = []
+        return render_template('user.html', title=name, tweets=tweets,
+                               message=message)
 
     @app.route('/reset')
     def reset():
