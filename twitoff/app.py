@@ -21,7 +21,6 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
     app.config['ENV'] = config('ENV')
     DB.init_app(app)
-    DB.create_all()  # Safe, won't override existing tables
     cached_comparisons = (pickle.loads(CACHE.get('comparisons'))
                           if CACHE.exists('comparisons') else set())
 
