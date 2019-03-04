@@ -63,6 +63,8 @@ def create_app():
 
     @app.route('/reset')
     def reset():
+        CACHE.flushall()
+        CACHED_COMPARISONS.clear()
         DB.drop_all()
         DB.create_all()
         return render_template('base.html', title='Reset database!')
