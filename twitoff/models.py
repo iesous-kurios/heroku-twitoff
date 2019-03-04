@@ -18,7 +18,7 @@ class User(DB.Model):
 class Tweet(DB.Model):
     """Tweets and their embeddings from Basilica."""
     id = DB.Column(DB.BigInteger, primary_key=True)
-    text = DB.Column(DB.Unicode(280))  # Future-proofing, API is short/ascii
+    text = DB.Column(DB.Unicode(300))  # Allowing for full + links
     embedding = DB.Column(DB.PickleType, nullable=False)
     user_id = DB.Column(DB.Integer, DB.ForeignKey('user.id'), nullable=False)
     user = DB.relationship('User', backref=DB.backref('tweets', lazy=True))
