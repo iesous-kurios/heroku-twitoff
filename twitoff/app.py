@@ -47,13 +47,14 @@ def create_app():
 
     @app.route('/compare', methods=['POST'])
     def compare(message=''):
-        user1, user2 = request.values['user1'], request.values['user2']
+        user1, user2 = sorted([request.values['user1'],
+                               request.values['user2']])
         if user1 == user2:
             message = 'Cannot compare a user to themselves!'
         else:
             prediction = predict_user(user1, user2,
                                       request.values['tweet_text'], CACHE)
-            CACHED_COMPARISONS.add(frozenset({user1, user2}))
+            CACHED_COMPARISONS.add((user1, user2))
             CACHE.set('comparisons', pickle.dumps(CACHED_COMPARISONS))
             message = '"{}" is more likely to be said by {} than {}'.format(
                 request.values['tweet_text'], user1 if prediction else user2,

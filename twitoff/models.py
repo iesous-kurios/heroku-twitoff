@@ -6,7 +6,7 @@ DB = SQLAlchemy()
 
 class User(DB.Model):
     """Twitter users corresponding to Tweets in the Tweet table."""
-    id = DB.Column(DB.Integer, primary_key=True)
+    id = DB.Column(DB.BigInteger, primary_key=True)
     name = DB.Column(DB.String(15), nullable=False)
     # Tweet IDs are ordinal ints, so can be used to fetch only more recent
     newest_tweet_id = DB.Column(DB.BigInteger)

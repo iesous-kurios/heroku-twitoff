@@ -23,12 +23,14 @@ def add_or_update_user(username):
         # 200 is a Twitter API limit, we'll usually see less due to exclusions
         tweets = twitter_user.timeline(
             count=200, exclude_replies=True, include_rts=False,
-            since_id=db_user.newest_tweet_id)
+            tweet_mode='extended', since_id=db_user.newest_tweet_id)
         if tweets:
             db_user.newest_tweet_id = tweets[0].id
         for tweet in tweets:
-            embedding = BASILICA.embed_sentence(tweet.text, model='twitter')
-            db_tweet = Tweet(id=tweet.id, text=tweet.text, embedding=embedding)
+            embedding = BASILICA.embed_sentence(tweet.full_text,
+                                                model='twitter')
+            db_tweet = Tweet(id=tweet.id, text=tweet.full_text,
+                             embedding=embedding)
             db_user.tweets.append(db_tweet)
             DB.session.add(db_tweet)
     except Exception as e:
