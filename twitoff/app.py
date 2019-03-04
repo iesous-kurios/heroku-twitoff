@@ -54,8 +54,9 @@ def create_app():
                                       request.values['tweet_text'], CACHE)
             cached_comparisons.add(frozenset({user1, user2}))
             CACHE.set('comparisons', pickle.dumps(cached_comparisons))
-            message = '"{}" is more likely to be said by: {}'.format(
-                request.values['tweet_text'], user1 if prediction else user2)
+            message = '"{}" is more likely to be said by {} than {}'.format(
+                request.values['tweet_text'], user1 if prediction else user2,
+                user2 if prediction else user1)
         return render_template('prediction.html', title='Prediction', message=message)
 
     @app.route('/reset')
