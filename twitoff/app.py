@@ -14,6 +14,9 @@ else:  # development/test, use local mocked Redis
     from birdisle.redis import Redis
     CACHE = Redis()
 
+CACHED_COMPARISONS = (pickle.loads(CACHE.get('comparisons'))
+                      if CACHE.exists('comparisons') else set())
+
 
 def create_app():
     """Create and configure an instance of the Flask application."""
@@ -21,13 +24,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
     app.config['ENV'] = config('ENV')
     DB.init_app(app)
-    cached_comparisons = (pickle.loads(CACHE.get('comparisons'))
-                          if CACHE.exists('comparisons') else set())
 
     @app.route('/')
     def root():
         return render_template('base.html', title='Home', users=User.query.all(),
-                               comparisons=cached_comparisons)
+                               comparisons=CACHED_COMPARISONS)
 
     @app.route('/user', methods=['POST'])
     @app.route('/user/<name>', methods=['GET'])
@@ -52,8 +53,8 @@ def create_app():
         else:
             prediction = predict_user(user1, user2,
                                       request.values['tweet_text'], CACHE)
-            cached_comparisons.add(frozenset({user1, user2}))
-            CACHE.set('comparisons', pickle.dumps(cached_comparisons))
+            CACHED_COMPARISONS.add(frozenset({user1, user2}))
+            CACHE.set('comparisons', pickle.dumps(CACHED_COMPARISONS))
             message = '"{}" is more likely to be said by {} than {}'.format(
                 request.values['tweet_text'], user1 if prediction else user2,
                 user2 if prediction else user1)
@@ -68,7 +69,7 @@ def create_app():
     @app.route('/update')
     def update():
         CACHE.flushall()
-        cached_comparisons.clear()
+        CACHED_COMPARISONS.clear()
         update_all_users()
         return render_template('base.html', users=User.query.all(),
                                title='Cache cleared and all Tweets updated!')
