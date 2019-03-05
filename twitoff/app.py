@@ -6,7 +6,7 @@ from .models import DB, User
 from .predict import predict_user
 from .twitter import add_or_update_user, update_all_users
 
-if config('ENV') == 'production':
+if config('FLASK_ENV') == 'production':
     from redis import Redis
     CACHE = Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'),
                   password=config('REDIS_PASSWORD'))
@@ -22,7 +22,8 @@ def create_app():
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
-    app.config['ENV'] = config('ENV')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['ENV'] = config('FLASK_ENV')
     DB.init_app(app)
 
     @app.route('/')
