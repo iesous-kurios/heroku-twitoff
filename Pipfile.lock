@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "268fa613b91b3526936f40d142dd9e6ce68672c90904024399caaf8452505aec"
+            "sha256": "8def45904e3f8d80e64db038dd558d87047eccc12a8d9526c57e991dee8beb77"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -283,8 +283,8 @@
         },
         "pycparser": {
             "hashes": [
-                "sha256:56b1893fe72db0410000f28212a964307a4b53e1a75a096a65db5a99e02e5862",
-                "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3"
+                "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3",
+                "sha256:fae763d3941c9c6f855ef21db721241152b6248416977bf5c43584789495026f"
             ],
             "version": "==2.19"
         },
@@ -300,6 +300,14 @@
             ],
             "index": "pypi",
             "version": "==3.1"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:a84569d0e00d178bc5b957f7ff208bf49287cbf61857c31c258c4a91f571527b",
+                "sha256:c9b1ddd3cdbe75c7d462cb84674d87130f4b948f090f02c7d7144779afb99ae0"
+            ],
+            "index": "pypi",
+            "version": "==0.10.1"
         },
         "redis": {
             "hashes": [
@@ -399,9 +407,9 @@
         },
         "sqlalchemy": {
             "hashes": [
-                "sha256:8027fa183f5be466030617a497b2d64e0e16c8d615e5a34bdf9fab6f66bf4723"
+                "sha256:11ead7047ff3f394ed0d4b62aded6c5d970a9b718e1dc6add9f5e79442cc5b14"
             ],
-            "version": "==1.2.18"
+            "version": "==1.3.0"
         },
         "tweepy": {
             "hashes": [
