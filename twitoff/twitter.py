@@ -1,15 +1,15 @@
 """Retrieve Tweets, embeddings, and persist in the database."""
+from os import getenv
 import basilica
 import tweepy
-from decouple import config
 from .models import DB, Tweet, User
 
-TWITTER_AUTH = tweepy.OAuthHandler(config('TWITTER_CONSUMER_KEY'),
-                                   config('TWITTER_CONSUMER_SECRET'))
-TWITTER_AUTH.set_access_token(config('TWITTER_ACCESS_TOKEN'),
-                              config('TWITTER_ACCESS_TOKEN_SECRET'))
+TWITTER_AUTH = tweepy.OAuthHandler(getenv('TWITTER_CONSUMER_KEY'),
+                                   getenv('TWITTER_CONSUMER_SECRET'))
+TWITTER_AUTH.set_access_token(getenv('TWITTER_ACCESS_TOKEN'),
+                              getenv('TWITTER_ACCESS_TOKEN_SECRET'))
 TWITTER = tweepy.API(TWITTER_AUTH)
-BASILICA = basilica.Connection(config('BASILICA_KEY'))
+BASILICA = basilica.Connection(getenv('BASILICA_KEY'))
 
 
 def add_or_update_user(username):
