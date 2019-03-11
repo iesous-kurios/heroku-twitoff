@@ -4,6 +4,12 @@ import basilica
 import tweepy
 from .models import DB, Tweet, User
 
+# https://greatist.com/happiness/must-follow-twitter-accounts
+TWITTER_USERS = ['calebhicks', 'elonmusk', 'rrherr', 'SteveMartinToGo',
+                 'alyankovic', 'nasa', 'sadserver', 'jkhowland', 'austen',
+                 'common_squirrel', 'KenJennings', 'conanobrien',
+                 'big_ben_clock', 'IAM_SHAKESPEARE']
+
 TWITTER_AUTH = tweepy.OAuthHandler(getenv('TWITTER_CONSUMER_KEY'),
                                    getenv('TWITTER_CONSUMER_SECRET'))
 TWITTER_AUTH.set_access_token(getenv('TWITTER_ACCESS_TOKEN'),
@@ -39,6 +45,15 @@ def add_or_update_user(username):
         raise e
     else:
         DB.session.commit()
+
+
+def add_users(users=TWITTER_USERS):
+    """
+    Add/update a list of users (strings of user names).
+    May take awhile, so run "offline" (flask shell).
+    """
+    for user in users:
+        add_or_update_user(user)
 
 
 def update_all_users():
