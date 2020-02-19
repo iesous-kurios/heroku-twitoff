@@ -1,27 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>TwitOff - {{ title }}</title>
-    <link rel="stylesheet" href="https://unpkg.com/picnic"/>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
   </head>
   <body>
     <nav>
-      <a href="/" class="brand"><span>TwitOff!</span></a>
+      <a href="/" class="btn btn-dark"><span>TwitOff! Home</span></a>
 
       <!-- responsive-->
-      <input id="bmenub" type="checkbox" class="show">
-      <label for="bmenub" class="burger pseudo button">Menu</label>
+      
 
       <div class="menu">
-        <a href="/update" class="button warning">Update Tweets</a>
-        <a href="/reset" class="button error">Reset Database</a>
+        <a href="/update" class="btn btn-info">Update Tweets</a>
+        <a href="/reset" class="btn btn-info">Reset Database</a>
       </div>
     </nav>
 
-    <article class="flex two" style="padding: 3em 1em;">
+    <article class="form-group">
       {% block content %}
-      <div>
-        <h1>{{ title }}</h1>
+      <div class="input-group mb-3">
+        <h2>"Select Two Twitter Users to Compare"</h2>
         <form action="/compare" method="post">
           <select name="user1">
             {% for user in users %}
@@ -36,13 +42,10 @@
           <input type="text" name="tweet_text" placeholder="Tweet text to predict">
           <input type="submit" value="Compare Users">
         </form>
-        <h3>Recent comparisons:</h3>
-        {% for comparison in comparisons %}
-        <span class="stack">{{ comparison }}</span>
-        {% endfor %}
+        
       </div>
       <div>
-        <h2>Users</h2>
+        <h2>Users Currently Added to Database</h2>
         {% for user in users %}
         <a href="/user/{{ user.name }}"><span class="stack">{{ user.name }}</span></a>
         {% endfor %}
@@ -53,6 +56,11 @@
       </div>
       {% endblock %}
     </article>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/umbrellajs"/> -->
+    <script src="https://cdn.jsdelivr.net/npm/umbrellajs"/>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
   </body>
 </html>

@@ -1,14 +1,41 @@
 """Retrieve Tweets, embeddings, and persist in the database."""
 from os import getenv
+import os
+from dotenv import load_dotenv
 import basilica
 import tweepy
 from .models import DB, Tweet, User
 
+
+
+load_dotenv()
+
+TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY", default="OOPS")
+TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET", default="OOPS")
+TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN", default="OOPS")
+TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET", default="OOPS")
+BASILICA_API_KEY = os.getenv("BASILICA_API_KEY", default="OOPS")
+
+def twitter_api_client():
+    auth = tweepy.OAuthHandler(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+    print(type(auth))
+    auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
+    client = tweepy.API(auth)
+    return client
+
+def basilica_connection():
+    connection = basilica.Connection(BASILICA_API_KEY)
+    print(connection)
+    return connection
+
+client = twitter_api_client()
+basilica_client = basilica_connection()
+
+
+
 # https://greatist.com/happiness/must-follow-twitter-accounts
-TWITTER_USERS = ['calebhicks', 'elonmusk', 'rrherr', 'SteveMartinToGo',
-                 'alyankovic', 'nasa', 'sadserver', 'jkhowland', 'austen',
-                 'common_squirrel', 'KenJennings', 'conanobrien',
-                 'big_ben_clock', 'IAM_SHAKESPEARE']
+TWITTER_USERS = ['elonmusk', 'conanobrien'
+                 ]
 
 TWITTER_AUTH = tweepy.OAuthHandler(getenv('TWITTER_CONSUMER_KEY'),
                                    getenv('TWITTER_CONSUMER_SECRET'))
@@ -28,7 +55,7 @@ def add_or_update_user(username):
         # We want as many recent non-retweet/reply statuses as we can get
         # 200 is a Twitter API limit, we'll usually see less due to exclusions
         tweets = twitter_user.timeline(
-            count=200, exclude_replies=True, include_rts=False,
+            count=100, exclude_replies=True, include_rts=False,
             tweet_mode='extended', since_id=db_user.newest_tweet_id)
         if tweets:
             db_user.newest_tweet_id = tweets[0].id
