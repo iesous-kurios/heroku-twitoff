@@ -1,4 +1,4 @@
-web: gunicorn app:app --log-file=-
+web: gunicorn app:app
 stocks_service: python web_app/stocks_service.py
 
 
