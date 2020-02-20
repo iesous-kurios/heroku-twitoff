@@ -1,2 +1,4 @@
-web: gunicorn "web_app:create_app()"
+web: gunicorn app:app --log-file=-
 stocks_service: python web_app/stocks_service.py
+
+
